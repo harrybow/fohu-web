@@ -29,7 +29,9 @@ Route::middleware('auth')->group(function(){
 Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.')->group(function(){
     Route::get('festival', [AdminFestivalController::class, 'edit'])->name('festival.edit');
     Route::put('festival', [AdminFestivalController::class, 'update'])->name('festival.update');
-    Route::resource('workdays', AdminWorkdayController::class);
+    Route::get('workdays', [AdminWorkdayController::class, 'index'])->name('workdays.index');
+    Route::post('workdays/{workday}/signup', [AdminWorkdayController::class, 'signup'])->name('workdays.signup');
+    Route::delete('workdays/{workday}/cancel', [AdminWorkdayController::class, 'cancel'])->name('workdays.cancel');
 });
 
 require __DIR__.'/auth.php';
