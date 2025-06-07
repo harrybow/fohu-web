@@ -20,9 +20,15 @@ class WorkdayController extends Controller
     /**
      * Sign the authenticated user up for a workday.
      */
-    public function signup(Workday $workday)
+    public function signup(Request $request, Workday $workday)
     {
-        auth()->user()->workdays()->attach($workday->id);
+        $data = $request->validate([
+            'status' => ['required', 'in:A,0.5,1'],
+        ]);
+
+        auth()->user()->workdays()->syncWithoutDetaching([
+            $workday->id => ['status' => $data['status']],
+        ]);
 
         return back()->with('success', 'Du bist dabei! 🎉');
     }
