@@ -17,16 +17,8 @@
                             <x-text-input type="date" id="aufbau_start" name="aufbau_start" :value="$festival->aufbau_start?->format('Y-m-d')" required class="mt-1 block w-full" />
                         </div>
                         <div>
-                            <x-input-label for="aufbau_end" value="{{ __('Aufbau Ende') }}" />
-                            <x-text-input type="date" id="aufbau_end" name="aufbau_end" :value="$festival->aufbau_end?->format('Y-m-d')" required class="mt-1 block w-full" />
-                        </div>
-                        <div>
                             <x-input-label for="festival_start" value="{{ __('Festival Start') }}" />
                             <x-text-input type="date" id="festival_start" name="festival_start" :value="$festival->festival_start?->format('Y-m-d')" required class="mt-1 block w-full" />
-                        </div>
-                        <div>
-                            <x-input-label for="festival_end" value="{{ __('Festival Ende') }}" />
-                            <x-text-input type="date" id="festival_end" name="festival_end" :value="$festival->festival_end?->format('Y-m-d')" required class="mt-1 block w-full" />
                         </div>
                         <div>
                             <x-input-label for="abbau_start" value="{{ __('Abbau Start') }}" />

@@ -3,22 +3,28 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Festival;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class FestivalController extends Controller
 {
     public function edit()
     {
         $festival = Festival::first();
-        if (!$festival) {
+        if (! $festival) {
+            $aufbauStart = now()->startOfMonth();
+            $festivalStart = now()->startOfMonth()->addDays(3);
+            $abbauStart = now()->startOfMonth()->addDays(6);
+            $abbauEnd = now()->startOfMonth()->addDays(7);
+
             $festival = Festival::create([
-                'aufbau_start' => now()->startOfMonth(),
-                'aufbau_end' => now()->startOfMonth()->addDays(2),
-                'festival_start' => now()->startOfMonth()->addDays(3),
-                'festival_end' => now()->startOfMonth()->addDays(5),
-                'abbau_start' => now()->startOfMonth()->addDays(6),
-                'abbau_end' => now()->startOfMonth()->addDays(7),
+                'aufbau_start' => $aufbauStart,
+                'festival_start' => $festivalStart,
+                'abbau_start' => $abbauStart,
+                'abbau_end' => $abbauEnd,
+                'aufbau_end' => $festivalStart,
+                'festival_end' => $abbauStart->copy()->subDay(),
             ]);
         }
 
@@ -29,12 +35,13 @@ class FestivalController extends Controller
     {
         $data = $request->validate([
             'aufbau_start' => 'required|date',
-            'aufbau_end' => 'required|date',
-            'festival_start' => 'required|date',
-            'festival_end' => 'required|date',
-            'abbau_start' => 'required|date',
-            'abbau_end' => 'required|date',
+            'festival_start' => 'required|date|after_or_equal:aufbau_start',
+            'abbau_start' => 'required|date|after:festival_start',
+            'abbau_end' => 'required|date|after_or_equal:abbau_start',
         ]);
+
+        $data['aufbau_end'] = Carbon::parse($data['festival_start']);
+        $data['festival_end'] = Carbon::parse($data['abbau_start'])->subDay();
 
         $festival = Festival::first();
         $festival->update($data);

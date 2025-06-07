@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Festival;
+use Illuminate\Database\Seeder;
 
 class FestivalSeeder extends Seeder
 {
@@ -15,11 +14,11 @@ class FestivalSeeder extends Seeder
     {
         Festival::create([
             'aufbau_start' => '2025-06-01',
-            'aufbau_end' => '2025-06-05',
             'festival_start' => '2025-06-06',
-            'festival_end' => '2025-06-10',
             'abbau_start' => '2025-06-11',
             'abbau_end' => '2025-06-13',
+            'aufbau_end' => '2025-06-06',
+            'festival_end' => '2025-06-10',
         ]);
     }
 }
