@@ -1,4 +1,4 @@
-@props(['festival'])
+@props(['festival', 'workdays'])
 @php
     $start = collect([
         $festival->aufbau_start,
@@ -18,6 +18,7 @@
         $days[] = $current->clone();
         $current->addDay();
     }
+    $workdaysByDate = $workdays->keyBy(fn($w) => $w->day->toDateString());
 @endphp
 <div class="overflow-x-auto">
 <table class="min-w-max border text-center">
@@ -43,8 +44,8 @@
                         $classes = 'bg-red-200';
                     }
 
-                    $workday = \App\Models\Workday::where('day', $day->toDateString())->first();
-                    $current = optional($workday?->users->firstWhere('id', auth()->id()))->pivot->status;
+                    $workday = $workdaysByDate->get($day->toDateString());
+                    $current = optional($workday?->users->firstWhere('id', auth()->id()))->pivot?->status;
                 @endphp
                 <td class="border p-1 space-y-1 {{ $classes }}">
                     {{ $day->format('d.m.') }}
