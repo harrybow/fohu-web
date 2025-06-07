@@ -15,37 +15,71 @@
                 </div>
             @endif
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <table class="min-w-full">
-                    <thead>
-                        <tr>
-                            <th class="text-left">{{ __('Datum') }}</th>
-                            <th class="text-left">{{ __('Titel') }}</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($workdays as $workday)
-                            <tr class="border-t">
-                                <td class="py-2">{{ $workday->day->format('d.m.Y') }}</td>
-                                <td class="py-2">{{ $workday->title }}</td>
-                                <td class="py-2 text-right">
-                                    @if($workday->users->contains(auth()->user()))
-                                        <form method="POST" action="{{ route('workdays.cancel', $workday) }}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <x-primary-button>{{ __('Absagen') }}</x-primary-button>
-                                        </form>
-                                    @else
-                                        <form method="POST" action="{{ route('workdays.signup', $workday) }}">
-                                            @csrf
-                                            <x-primary-button>{{ __('Anmelden') }}</x-primary-button>
-                                        </form>
-                                    @endif
-                                </td>
+                @if(auth()->user()->hasRole('admin'))
+                    <div class="overflow-x-auto">
+                        <table class="min-w-max text-center">
+                            <thead>
+                                <tr>
+                                    <th class="p-2 text-left">{{ __('Name') }}</th>
+                                    @foreach($workdays as $day)
+                                        <th class="p-2 whitespace-nowrap">{{ $day->day->format('d.m.') }}</th>
+                                    @endforeach
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php($users = \App\Models\User::orderBy('name')->get())
+                                @foreach($users as $user)
+                                    <tr class="border-t">
+                                        <td class="p-2 text-left">{{ $user->name }}</td>
+                                        @foreach($workdays as $day)
+                                            @php
+                                                $entry = optional($user->workdays->firstWhere('id', $day->id))->pivot->status;
+                                            @endphp
+                                            <td class="p-2 border">{{ $entry }}</td>
+                                        @endforeach
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th class="text-left">{{ __('Datum') }}</th>
+                                <th class="text-left">{{ __('Titel') }}</th>
+                                <th class="text-right">{{ __('Aktion') }}</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach($workdays as $workday)
+                                @php
+                                    $current = optional($workday->users->firstWhere('id', auth()->id()))->pivot->status;
+                                @endphp
+                                <tr class="border-t">
+                                    <td class="py-2">{{ $workday->day->format('d.m.Y') }}</td>
+                                    <td class="py-2">{{ $workday->title }}</td>
+                                    <td class="py-2 text-right space-x-1">
+                                        @foreach(['A','0.5','1'] as $opt)
+                                            <form method="POST" action="{{ route('workdays.signup', $workday) }}" class="inline">
+                                                @csrf
+                                                <input type="hidden" name="status" value="{{ $opt }}">
+                                                <x-primary-button :class="$current === $opt ? 'bg-green-500' : ''">{{ $opt }}</x-primary-button>
+                                            </form>
+                                        @endforeach
+                                        @if($current)
+                                            <form method="POST" action="{{ route('workdays.cancel', $workday) }}" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <x-secondary-button>{{ __('Entfernen') }}</x-secondary-button>
+                                            </form>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
             </div>
         </div>
     </div>
