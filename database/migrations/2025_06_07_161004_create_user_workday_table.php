@@ -26,9 +26,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('user_workday');
     }
-
-    public function users()
-    {
-        return $this->belongsToMany(User::class)->withTimestamps();
-    }
 };
