@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Festival;
+use App\Models\User;
 use App\Models\Workday;
 use Illuminate\Http\Request;
 
@@ -10,9 +12,11 @@ class WorkdayController extends Controller
 {
     public function index()
     {
-        $workdays = Workday::orderBy('day')->get();
+        $workdays = Workday::with('users')->orderBy('day')->get();
+        $festival = Festival::first();
+        $users = User::with('workdays')->orderBy('name')->get();
 
-        return view('workdays.index', compact('workdays'));
+        return view('workdays.index', compact('workdays', 'festival', 'users'));
     }
 
     public function signup(Request $request, Workday $workday)
