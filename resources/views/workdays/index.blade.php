@@ -5,15 +5,13 @@
         </h2>
     </x-slot>
 
-    @php
-        $festival = \App\Models\Festival::first();
-    @endphp
+
 
     <div class="py-12 space-y-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @if($festival)
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 mb-6">
-                    <x-calendar :festival="$festival" />
+                    <x-calendar :festival="$festival" :workdays="$workdays" />
                 </div>
             @endif
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
@@ -30,9 +28,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php
-                                    $users = \App\Models\User::orderBy('name')->get();
-                                @endphp
                                 @foreach($users as $user)
                                     <tr class="border-t">
                                         <td class="p-2 text-left">{{ $user->name }}</td>
