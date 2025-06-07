@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WorkdayController;
 use App\Http\Controllers\Admin\WorkdayController as AdminWorkdayController;
+use App\Http\Controllers\Admin\FestivalController as AdminFestivalController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -26,6 +27,8 @@ Route::middleware('auth')->group(function(){
 });
 
 Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.')->group(function(){
+    Route::get('festival', [AdminFestivalController::class, 'edit'])->name('festival.edit');
+    Route::put('festival', [AdminFestivalController::class, 'update'])->name('festival.update');
     Route::resource('workdays', AdminWorkdayController::class);
 });
 

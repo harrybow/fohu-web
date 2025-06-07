@@ -26,6 +26,9 @@
                         <x-nav-link :href="route('admin.workdays.index')" :active="request()->routeIs('admin.workdays.*')">
                             {{ __('Admin Dashboard') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.festival.edit')" :active="request()->routeIs('admin.festival.*')">
+                            {{ __('Festival Einstellungen') }}
+                        </x-nav-link>
                     @endrole
                 </div>
             </div>
@@ -92,6 +95,9 @@
             @role('admin')
                 <x-responsive-nav-link :href="route('admin.workdays.index')" :active="request()->routeIs('admin.workdays.*')">
                     {{ __('Admin Dashboard') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.festival.edit')" :active="request()->routeIs('admin.festival.*')">
+                    {{ __('Festival Einstellungen') }}
                 </x-responsive-nav-link>
             @endrole
         </div>
