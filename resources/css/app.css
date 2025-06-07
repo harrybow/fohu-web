@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 body {
-    @apply bg-brand-dark text-white;
+    @apply bg-gradient-to-b from-gray-50 to-gray-200 text-gray-800;
 }
 
 header {
-    @apply bg-brand-blue text-white;
+    @apply bg-white shadow-md text-gray-800;
 }
 
 a {
-    @apply text-brand-orange;
+    @apply text-blue-600 hover:text-blue-700;
 }
