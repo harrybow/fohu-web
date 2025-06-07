@@ -38,7 +38,7 @@
                                         <td class="p-2 text-left">{{ $user->name }}</td>
                                         @foreach($workdays as $day)
                                             @php
-                                                $entry = optional($user->workdays->firstWhere('id', $day->id))->pivot->status;
+                                                $entry = optional($user->workdays->firstWhere('id', $day->id))->pivot?->status;
                                             @endphp
                                             <td class="p-2 border">{{ $entry }}</td>
                                         @endforeach
@@ -66,7 +66,7 @@
                         <tbody>
                             @foreach($workdays as $workday)
                                 @php
-                                    $current = optional($workday->users->firstWhere('id', auth()->id()))->pivot->status;
+                                    $current = optional($workday->users->firstWhere('id', auth()->id()))->pivot?->status;
                                     $rowClass = match($current) {
                                         'A' => 'bg-yellow-200',
                                         '0.5' => 'bg-teal-200',
