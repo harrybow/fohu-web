@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    @apply bg-brand-dark text-white;
+}
+
+header {
+    @apply bg-brand-orange text-white;
+}
+
+a {
+    @apply text-brand-blue;
+}
