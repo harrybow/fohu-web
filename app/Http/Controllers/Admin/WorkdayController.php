@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Workday;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class WorkdayController extends Controller
 {
