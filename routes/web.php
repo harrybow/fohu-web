@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function(){
     Route::delete('workdays/{workday}/cancel', [WorkdayController::class,'cancel'])->name('workdays.cancel');
 });
 
-Route::middleware(['auth','role:admin'])->prefix('admin')->name('admin.')->group(function(){
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function(){
     Route::resource('workdays', AdminWorkdayController::class);
 });
 
