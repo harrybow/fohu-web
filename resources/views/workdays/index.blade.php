@@ -60,8 +60,14 @@
                             @foreach($workdays as $workday)
                                 @php
                                     $current = optional($workday->users->firstWhere('id', auth()->id()))->pivot->status;
+                                    $rowClass = match($current) {
+                                        'A' => 'bg-yellow-200',
+                                        '0.5' => 'bg-teal-200',
+                                        '1' => 'bg-blue-200',
+                                        default => '',
+                                    };
                                 @endphp
-                                <tr class="border-t">
+                                <tr class="border-t {{ $rowClass }}">
                                     <td class="py-2">{{ $workday->day->format('d.m.Y') }}</td>
                                     <td class="py-2">{{ $workday->title }}</td>
                                     <td class="py-2 text-right space-x-1">
@@ -69,7 +75,7 @@
                                             <form method="POST" action="{{ route('workdays.signup', $workday) }}" class="inline">
                                                 @csrf
                                                 <input type="hidden" name="status" value="{{ $opt }}">
-                                                <x-primary-button :class="$current === $opt ? 'bg-green-500' : ''">{{ $opt }}</x-primary-button>
+                                                <x-primary-button :class="$current === $opt ? 'ring-2 ring-black' : ''">{{ $opt }}</x-primary-button>
                                             </form>
                                         @endforeach
                                         @if($current)
