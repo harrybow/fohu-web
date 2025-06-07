@@ -42,8 +42,31 @@
                     if($day->between($festival->abbau_start, $festival->abbau_end)){
                         $classes = 'bg-red-200';
                     }
+
+                    $workday = \App\Models\Workday::where('day', $day->toDateString())->first();
+                    $current = optional($workday?->users->firstWhere('id', auth()->id()))->pivot->status;
                 @endphp
-                <td class="border p-1 {{ $classes }}">{{ $day->format('d.m.') }}</td>
+                <td class="border p-1 space-y-1 {{ $classes }}">
+                    {{ $day->format('d.m.') }}
+                    @if($workday)
+                        <div class="flex justify-center space-x-1 flex-wrap">
+                            @foreach(['A','0.5','1'] as $opt)
+                                <form method="POST" action="{{ route('workdays.signup', $workday) }}" class="inline">
+                                    @csrf
+                                    <input type="hidden" name="status" value="{{ $opt }}">
+                                    <x-primary-button class="text-xs px-2 py-1 {{ $current === $opt ? 'ring-2 ring-black' : '' }}">{{ $opt }}</x-primary-button>
+                                </form>
+                            @endforeach
+                            @if($current)
+                                <form method="POST" action="{{ route('workdays.cancel', $workday) }}" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <x-secondary-button class="text-xs px-2 py-1">{{ __('Entfernen') }}</x-secondary-button>
+                                </form>
+                            @endif
+                        </div>
+                    @endif
+                </td>
             @endforeach
         </tr>
     </tbody>
