@@ -5,8 +5,15 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    @php($festival = \App\Models\Festival::first())
+
+    <div class="py-12 space-y-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @if($festival)
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 mb-6">
+                    <x-calendar :festival="$festival" />
+                </div>
+            @endif
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <table class="min-w-full">
                     <thead>
