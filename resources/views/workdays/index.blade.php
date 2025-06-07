@@ -26,6 +26,7 @@
                                     @foreach($workdays as $day)
                                         <th class="p-2 whitespace-nowrap">{{ $day->day->format('d.m.') }}</th>
                                     @endforeach
+                                    <th class="p-2">{{ __('Summe') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -41,6 +42,12 @@
                                             @endphp
                                             <td class="p-2 border">{{ $entry }}</td>
                                         @endforeach
+                                        @php
+                                            $total = $user->workdays->sum(function ($w) {
+                                                return $w->pivot->status === '0.5' ? 0.5 : 1;
+                                            });
+                                        @endphp
+                                        <td class="p-2 font-semibold">{{ $total }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
