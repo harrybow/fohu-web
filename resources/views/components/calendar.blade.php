@@ -19,39 +19,33 @@
         $current->addDay();
     }
 @endphp
-<table class="min-w-full border text-center">
+<div class="overflow-x-auto">
+<table class="min-w-max border text-center">
     <thead>
         <tr>
-            <th class="p-1">Mo</th>
-            <th class="p-1">Di</th>
-            <th class="p-1">Mi</th>
-            <th class="p-1">Do</th>
-            <th class="p-1">Fr</th>
-            <th class="p-1">Sa</th>
-            <th class="p-1">So</th>
+            @foreach($days as $day)
+                <th class="p-1">{{ $day->locale('de')->isoFormat('dd') }}</th>
+            @endforeach
         </tr>
     </thead>
     <tbody>
-    @foreach($days as $i => $day)
-        @if($i % 7 === 0)
-            <tr>
-        @endif
-        @php
-            $classes = '';
-            if($day->between($festival->aufbau_start, $festival->aufbau_end)){
-                $classes = 'bg-yellow-200';
-            }
-            if($day->between($festival->festival_start, $festival->festival_end)){
-                $classes = 'bg-green-200';
-            }
-            if($day->between($festival->abbau_start, $festival->abbau_end)){
-                $classes = 'bg-red-200';
-            }
-        @endphp
-        <td class="border p-1 {{ $classes }}">{{ $day->format('d.m.') }}</td>
-        @if($i % 7 === 6)
-            </tr>
-        @endif
-    @endforeach
+        <tr>
+            @foreach($days as $day)
+                @php
+                    $classes = '';
+                    if($day->between($festival->aufbau_start, $festival->aufbau_end)){
+                        $classes = 'bg-yellow-200';
+                    }
+                    if($day->between($festival->festival_start, $festival->festival_end)){
+                        $classes = 'bg-green-200';
+                    }
+                    if($day->between($festival->abbau_start, $festival->abbau_end)){
+                        $classes = 'bg-red-200';
+                    }
+                @endphp
+                <td class="border p-1 {{ $classes }}">{{ $day->format('d.m.') }}</td>
+            @endforeach
+        </tr>
     </tbody>
 </table>
+</div>
