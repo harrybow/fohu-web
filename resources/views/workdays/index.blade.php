@@ -18,7 +18,7 @@
             @endif
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
                 @if(auth()->user()->hasRole('admin'))
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto mb-6">
                         <table class="min-w-max text-center">
                             <thead>
                                 <tr>
@@ -46,8 +46,9 @@
                             </tbody>
                         </table>
                     </div>
-                @else
-                    <table class="min-w-full">
+                @endif
+
+                <table class="min-w-full">
                         <thead>
                             <tr>
                                 <th class="text-left">{{ __('Datum') }}</th>
@@ -83,7 +84,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                @endif
             </div>
         </div>
     </div>
