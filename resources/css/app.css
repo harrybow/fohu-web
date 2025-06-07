@@ -7,9 +7,9 @@ body {
 }
 
 header {
-    @apply bg-brand-orange text-white;
+    @apply bg-brand-blue text-white;
 }
 
 a {
-    @apply text-brand-blue;
+    @apply text-brand-orange;
 }
