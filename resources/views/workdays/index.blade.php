@@ -5,7 +5,9 @@
         </h2>
     </x-slot>
 
-    @php($festival = \App\Models\Festival::first())
+    @php
+        $festival = \App\Models\Festival::first();
+    @endphp
 
     <div class="py-12 space-y-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -27,7 +29,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php($users = \App\Models\User::orderBy('name')->get())
+                                @php
+                                    $users = \App\Models\User::orderBy('name')->get();
+                                @endphp
                                 @foreach($users as $user)
                                     <tr class="border-t">
                                         <td class="p-2 text-left">{{ $user->name }}</td>
