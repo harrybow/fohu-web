@@ -85,16 +85,10 @@
                                                 <x-primary-button :class="$current === $opt ? 'ring-2 ring-black' : ''">{{ $opt }}</x-primary-button>
                                             </form>
                                         @endforeach
-                                        @if($current)
-                                            <form method="POST" action="{{ route('workdays.cancel', $workday) }}" class="inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <x-secondary-button>{{ __('Entfernen') }}</x-secondary-button>
-                                            </form>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
+                                        {{-- Delete option removed, current choice is highlighted instead --}}
+                                        </td>
+                                    </tr>
+                                @endforeach
                         </tbody>
                     </table>
             </div>

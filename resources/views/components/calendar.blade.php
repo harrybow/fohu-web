@@ -44,9 +44,15 @@
                     }
 
                     $workday = \App\Models\Workday::where('day', $day->toDateString())->first();
-                    $current = optional($workday?->users->firstWhere('id', auth()->id()))->pivot->status;
+                    $current = optional($workday?->users->firstWhere('id', auth()->id()))->pivot?->status;
+                    $statusClass = match($current){
+                        'A' => 'bg-yellow-200',
+                        '0.5' => 'bg-teal-200',
+                        '1' => 'bg-blue-200',
+                        default => '',
+                    };
                 @endphp
-                <td class="border p-1 space-y-1 {{ $classes }}">
+                <td class="border p-1 space-y-1 {{ $classes }} {{ $statusClass }}">
                     {{ $day->format('d.m.') }}
                     @if($workday)
                         <div class="flex justify-center space-x-1 flex-wrap">
@@ -57,13 +63,6 @@
                                     <x-primary-button class="text-xs px-2 py-1 {{ $current === $opt ? 'ring-2 ring-black' : '' }}">{{ $opt }}</x-primary-button>
                                 </form>
                             @endforeach
-                            @if($current)
-                                <form method="POST" action="{{ route('workdays.cancel', $workday) }}" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <x-secondary-button class="text-xs px-2 py-1">{{ __('Entfernen') }}</x-secondary-button>
-                                </form>
-                            @endif
                         </div>
                     @endif
                 </td>
