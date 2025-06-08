@@ -34,7 +34,7 @@
             </div>
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <x-calendar :festival="$festival" />
+                <x-calendar :festival="$festival" :workdays="$workdays" />
             </div>
         </div>
     </div>

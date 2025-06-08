@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Festival;
+use App\Models\Workday;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,9 @@ class FestivalController extends Controller
             ]);
         }
 
-        return view('admin.festival.edit', compact('festival'));
+        $workdays = Workday::with('users')->orderBy('day')->get();
+
+        return view('admin.festival.edit', compact('festival', 'workdays'));
     }
 
     public function update(Request $request)
