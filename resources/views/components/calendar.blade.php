@@ -1,4 +1,4 @@
-@props(['festival', 'workdays'])
+@props(['festival', 'workdays' => collect()])
 @php
     $start = collect([
         $festival->aufbau_start,
